@@ -1,2 +1,6 @@
 export const FETCH_ORG_REPOS = 'fetch_org_repos'
+export const FETCH_ORG_REPOS_SUCCESS = 'fetch_org_repos_success'
+export const FETCH_ORG_REPOS_FAILED = 'fetch_org_repos_failed'
 export const FETCH_REPO = 'fetch_repo'
+export const FETCH_REPO_SUCCESS = 'fetch_repo_success'
+export const FETCH_REPO_FAILED = 'fetch_repo_failed'

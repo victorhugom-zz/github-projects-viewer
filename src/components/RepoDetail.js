@@ -5,28 +5,22 @@ import { repoByIdSelector } from '../selectors/orgsReposSelector'
 
 class RepoDetail extends Component {
   state = { isLoading: false }
-  componentDidMount() {
-    this.fetchRepoDetail()
+
+  fetchRepoDetail(repoName) {
+    const { fetchRepo } = this.props
+
+    fetchRepo('facebook', repoName)
   }
 
-  fetchRepoDetail() {
-    const {
-      match: {
-        params: { name },
-      },
-      fetchRepo,
-    } = this.props
-
-    fetchRepo('facebook', name).then(
-      this.setState({
-        isLoading: false,
-      }),
-    )
+  componentWillReceiveProps = nextProps => {
+    if (this.props.match.params.name !== nextProps.match.params.name) {
+      this.fetchRepoDetail(nextProps.match.params.name)
+    }
   }
 
   render() {
     const { repo } = this.props
-    return <div>{JSON.stringify(repo)}</div>
+    return <pre>{JSON.stringify(repo, null, 4)}</pre>
   }
 }
 

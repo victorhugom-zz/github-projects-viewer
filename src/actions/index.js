@@ -1,18 +1,36 @@
-import axios from 'axios'
-import { FETCH_ORG_REPOS, FETCH_REPO } from './types'
+import {
+  FETCH_ORG_REPOS,
+  FETCH_ORG_REPOS_SUCCESS,
+  FETCH_ORG_REPOS_FAILED,
+  FETCH_REPO,
+  FETCH_REPO_SUCCESS,
+  FETCH_REPO_FAILED,
+} from './types'
 
-export const fetchOrgRepos = (user = 'facebook', page = 1) => async dispatch => {
-  const res = await axios.get(`https://api.github.com/users/${user}/repos?page=${page}`)
-  dispatch({
-    type: FETCH_ORG_REPOS,
-    payload: res.data,
-  })
-}
+export const fetchOrgRepos = (owner = 'facebook') => ({
+  type: FETCH_ORG_REPOS,
+  payload: { owner },
+})
 
-export const fetchRepo = (owner = 'facebook', reposName) => async dispatch => {
-  const res = await axios.get(`https://api.github.com/repos/${owner}/${reposName}`)
-  dispatch({
-    type: FETCH_REPO,
-    payload: res.data,
-  })
-}
+export const fetchOrgReposSuccess = data => ({
+  type: FETCH_ORG_REPOS_SUCCESS,
+  payload: data,
+})
+
+export const fetchOrgReposFailed = () => ({
+  type: FETCH_ORG_REPOS_SUCCESS,
+})
+
+export const fetchRepo = (owner = 'facebook', repoName = '') => ({
+  type: FETCH_REPO,
+  payload: { owner, repoName },
+})
+
+export const fetchRepoSuccess = data => ({
+  type: FETCH_REPO_SUCCESS,
+  payload: data,
+})
+
+export const fetchRepoFailed = () => ({
+  type: FETCH_REPO_SUCCESS,
+})

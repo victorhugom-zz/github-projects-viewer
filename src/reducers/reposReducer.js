@@ -1,8 +1,7 @@
-import { FETCH_ORG_REPOS, FETCH_REPO } from '../actions/types'
+import { FETCH_ORG_REPOS_SUCCESS, FETCH_REPO_SUCCESS } from '../actions/types'
 export default function(state = {}, action) {
-  console.log(action)
   switch (action.type) {
-    case FETCH_ORG_REPOS:
+    case FETCH_ORG_REPOS_SUCCESS:
       const result = action.payload.reduce((prev, curr) => {
         prev[curr.name] = curr
         return prev
@@ -11,7 +10,7 @@ export default function(state = {}, action) {
         ...state,
         ...result,
       }
-    case FETCH_REPO:
+    case FETCH_REPO_SUCCESS:
       return {
         ...state,
         [action.payload.name]: action.payload,
