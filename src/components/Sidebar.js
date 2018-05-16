@@ -5,51 +5,31 @@ import { Link } from 'react-router-dom'
 import { Subject } from 'rxjs'
 import { orgsReposSelector } from '../selectors/orgsReposSelector'
 import styled from 'styled-components'
+import { Title, Hover, HrLineLight, GrayInput, ElipsedText } from '../styledComponents'
 
-const StyledTitle = styled.h1`
-  font-size: 1em;
-  text-align: center;
-  color: gray;
-`
-const StyledInput = styled.input`
-  height: 30px
-  color: black;
-  background: #e9e8e6;
-  border: none;
-  border-radius: 3px;
-`
-const StyledSidebarItem = styled.div`
+const SidebarItemBlock = styled.div`
   display: flex;
-  flex=direction: row;
+  flex-direction: row;
   justify-content: space-between;
-  margin-top: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `
 
-const StyledSidebarItemLink = StyledSidebarItem.extend`
+const SidebarItemLink = SidebarItemBlock.extend`
   font-weight: ${props => (props.selected ? 'bold' : '')};
   color: ${props => (props.selected ? '#00acff' : 'gray')};
 `
 
-const StyledElipsedText = styled.span`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 200px;
-`
-
-const StyledHr = styled.hr`
-  border: 1px #dfdfdf solid;
-`
-
 const SidebarItem = repo => {
   return (
-    <div>
+    <Hover>
       <Link to={`/repo/${repo.name}`} style={{ textDecoration: 'none' }}>
-        <StyledSidebarItemLink selected={repo.selected}>
-          <StyledElipsedText>{repo.name}</StyledElipsedText>
+        <SidebarItemLink selected={repo.selected}>
+          <ElipsedText>{repo.name}</ElipsedText>
           <span>{repo.watchers_count}</span>
-        </StyledSidebarItemLink>
+        </SidebarItemLink>
       </Link>
-    </div>
+    </Hover>
   )
 }
 
@@ -89,28 +69,32 @@ class Sidebar extends Component {
       <div
         style={{
           height: '100vh',
-          display: 'table-cell',
-          borderRight: '1px #dfdfdf solid',
+          borderRight: '1px solid rgb(223, 223, 223)',
           width: 300,
           padding: 10,
+          overflow: 'auto',
+          position: 'fixed',
+          left: 0,
+          top: 0,
         }}
       >
-        <StyledTitle>Facebook Github Repositories</StyledTitle>
-        <StyledInput
+        <Title>Facebook Github Repositories</Title>
+        <GrayInput
           style={{ width: '100%' }}
           type="text"
+          placeholder="Search"
           value={search}
           onChange={this.onSearch}
         />
-        <StyledHr />
-        <StyledSidebarItem>
+        <HrLineLight />
+        <SidebarItemBlock>
           <span>Repository</span>
           <span>Watchers</span>
-        </StyledSidebarItem>
-        <StyledHr />
+        </SidebarItemBlock>
+        <HrLineLight />
 
         {loadingRepos ? (
-          <StyledSidebarItem>LOADING</StyledSidebarItem>
+          <SidebarItemBlock>LOADING</SidebarItemBlock>
         ) : (
           repos.map(repo => (
             <SidebarItem

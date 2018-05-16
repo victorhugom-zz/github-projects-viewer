@@ -10,7 +10,12 @@ class App extends Component {
       <BrowserRouter>
         <div style={{ display: 'table' }}>
           <Sidebar />
-          <div>
+          <div
+            style={{
+              position: 'absolute',
+              left: 300,
+            }}
+          >
             <Route path="/repo/:name" component={RepoDetail} />
           </div>
         </div>
