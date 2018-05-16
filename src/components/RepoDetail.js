@@ -4,23 +4,17 @@ import * as actions from '../actions'
 import { repoByIdSelector } from '../selectors/orgsReposSelector'
 
 class RepoDetail extends Component {
-  state = { isLoading: false }
-
-  fetchRepoDetail(repoName) {
-    const { fetchRepo } = this.props
-
-    fetchRepo('facebook', repoName)
-  }
-
-  componentWillReceiveProps = nextProps => {
-    if (this.props.match.params.name !== nextProps.match.params.name) {
-      this.fetchRepoDetail(nextProps.match.params.name)
+  componentWillUpdate(nextProps, nextState) {
+    const { fetchRepoContributors, selectRepo } = this.props
+    if (nextProps.repo && !nextProps.repo.contributors) {
+      fetchRepoContributors(nextProps.repo.contributors_url, nextProps.match.params.name)
     }
+    selectRepo(nextProps.match.params.name)
   }
 
   render() {
-    const { repo } = this.props
-    return <pre>{JSON.stringify(repo, null, 4)}</pre>
+    const { repo, loadingRepo } = this.props
+    return loadingRepo ? <p>LOADING</p> : <pre>{JSON.stringify(repo, null, 4)}</pre>
   }
 }
 

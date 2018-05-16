@@ -1,4 +1,4 @@
 import { combineEpics } from 'redux-observable'
-import { fetchOrgRepos, fetchRepo } from './reposEpics'
+import { fetchOrgRepos, fetchRepoContributors } from './reposEpics'
 
-export default combineEpics(fetchOrgRepos, fetchRepo)
+export default combineEpics(fetchOrgRepos, fetchRepoContributors)

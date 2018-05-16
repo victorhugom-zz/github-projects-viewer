@@ -14,7 +14,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(
   reducers,
-  { repos: [] },
+  { repos: { items: [], filter: '' } },
   composeEnhancers(applyMiddleware(epicMiddleware)),
 )
 

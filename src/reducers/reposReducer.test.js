@@ -13,19 +13,13 @@ const dataArray = [
 ]
 
 const dataObject = {
-  codemod: {
-    id: 165883,
-    name: 'codemod',
-  },
-  hhvm: {
-    id: 455600,
-    name: 'hhvm',
-  },
+  items: { codemod: { id: 165883, name: 'codemod' }, hhvm: { id: 455600, name: 'hhvm' } },
+  loadingRepos: false,
 }
 
 describe('repos reducer', () => {
   it('should return the initial state', () => {
-    expect(reposReducer(undefined, {})).toEqual({})
+    expect(reposReducer(undefined, {})).toEqual({ items: {} })
   })
 
   it('should handle FETCH_ORG_REPOS', () => {

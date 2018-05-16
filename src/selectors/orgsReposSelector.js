@@ -1,22 +1,35 @@
 import { createSelector } from 'reselect'
 
-const reposItemsSelector = state => state.repos
 const compareDesc = (a, b) => (a < b ? 1 : a > b ? -1 : 0)
 
-const orgsReposSelector = createSelector(reposItemsSelector, repos => {
-  const result = Object.values(repos) || []
+const reposItemsSelector = state => {
+  return {
+    repos: state.repos.items,
+    filter: state.repos.filter.toLowerCase(),
+    selectedItemName: state.repos.selectedItemName,
+    loadingRepos: state.repos.loadingRepos,
+  }
+}
+const orgsReposSelector = createSelector(reposItemsSelector, data => {
+  const items = Object.values(data.repos) || []
 
-  result.sort((a, b) => compareDesc(a.watchers_count, b.watchers_count))
-  return { repos: result }
+  const result = items
+    .filter(x => x.name.toLowerCase().indexOf(data.filter) >= 0)
+    .sort((a, b) => compareDesc(a.watchers_count, b.watchers_count))
+
+  return {
+    ...data,
+    repos: result,
+  }
 })
 
-const orgsReposByIdSelector = createSelector(reposItemsSelector, repos => {
-  return { repos: repos }
+const repoById = (state, props) => state.repos.items[props.match.params.name]
+const loadingRepo = (state, props) => state.repos.loadingRepo
+const repoByIdSelector = createSelector(repoById, loadingRepo, (repo, loadingRepo) => {
+  return {
+    loadingRepo,
+    repo,
+  }
 })
 
-const repoById = (state, props) => state.repos[props.match.params.name]
-const repoByIdSelector = createSelector(repoById, repo => {
-  return { repo: repo }
-})
-
-export { orgsReposSelector, orgsReposByIdSelector, repoByIdSelector }
+export { orgsReposSelector, repoByIdSelector }
