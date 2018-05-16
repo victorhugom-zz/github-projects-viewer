@@ -18,7 +18,7 @@ export const fetchOrgReposSuccess = data => ({
 })
 
 export const fetchOrgReposFailed = () => ({
-  type: FETCH_ORG_REPOS_SUCCESS,
+  type: FETCH_ORG_REPOS_FAILED,
 })
 
 export const fetchRepo = (owner = 'facebook', repoName = '') => ({
@@ -32,5 +32,5 @@ export const fetchRepoSuccess = data => ({
 })
 
 export const fetchRepoFailed = () => ({
-  type: FETCH_REPO_SUCCESS,
+  type: FETCH_REPO_FAILED,
 })
