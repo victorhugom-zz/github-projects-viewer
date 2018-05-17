@@ -14,12 +14,16 @@ import Contributors from './ContributorList'
 import RepoDetailHeader from './RepoDetailHeader'
 
 class RepoDetail extends Component {
-  componentWillUpdate(nextProps, nextState) {
-    const { fetchRepoContributors, selectRepo } = this.props
-    if (nextProps.repo && !nextProps.repo.contributors) {
+  state = {}
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { fetchRepoContributors, selectRepo, repo } = nextProps
+
+    if (repo && !repo.contributors) {
       fetchRepoContributors(nextProps.repo.contributors_url, nextProps.match.params.name)
     }
     selectRepo(nextProps.match.params.name)
+    return null
   }
 
   render() {
