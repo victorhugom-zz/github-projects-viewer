@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { ImgThumb, HorizontalBlockCenter, Anchor, Hover } from '../styledComponents'
 
 const ContributorContainer = Hover.extend``

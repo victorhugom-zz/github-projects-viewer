@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import * as actions from '../actions'
 import { Link } from 'react-router-dom'
 import { Subject } from 'rxjs'
-import { orgsReposSelector } from '../selectors/orgsReposSelector'
 import styled from 'styled-components'
+
+import { orgsReposSelector } from '../selectors/orgsReposSelector'
 import { Title, Hover, HrLineLight, GrayInput, ElipsedText } from '../styledComponents'
 
 const SidebarItemBlock = styled.div`
@@ -39,9 +40,9 @@ class Sidebar extends Component {
     this.state = {
       search: '',
     }
-    this.onSearch$ = new Subject()
-    this.onSearch = this.onSearch.bind(this)
   }
+  onSearch$ = new Subject()
+
   componentDidMount() {
     this.props.fetchOrgRepos()
     this.subscription = this.onSearch$
@@ -55,7 +56,7 @@ class Sidebar extends Component {
     }
   }
 
-  onSearch(e) {
+  onSearch = e => {
     const search = e.target.value
     this.setState({ search })
     this.onSearch$.next(search)

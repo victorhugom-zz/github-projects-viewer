@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+
 import * as actions from '../actions'
 import { repoByIdSelector } from '../selectors/orgsReposSelector'
 import {
@@ -9,7 +10,6 @@ import {
   HrLineLight,
   Panel,
 } from '../styledComponents'
-
 import Contributors from './ContributorList'
 import RepoDetailHeader from './RepoDetailHeader'
 

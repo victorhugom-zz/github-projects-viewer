@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+
 import { SubTitle, Text, HorizontalBlockBottom, Panel } from '../styledComponents'
 
 const RepoDetailHeader = repo => (
