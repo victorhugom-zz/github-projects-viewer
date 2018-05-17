@@ -34,9 +34,16 @@ describe('fetchOrgRepos', () => {
         name: 'hhvm',
       },
     ]
+
     nock('https://api.github.com')
-      .get('/users/facebook/repos')
+      .get(/users.*/)
+      .query({ page: 0 })
       .reply(200, body)
+
+    nock('https://api.github.com')
+      .get(/users.*/)
+      .query({ page: 1 })
+      .reply(200, [])
 
     const expectedActions = [
       { type: FETCH_ORG_REPOS, payload },

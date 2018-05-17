@@ -1,8 +1,12 @@
 import nock from 'nock'
 import configureMockStore from 'redux-mock-store'
 import { createEpicMiddleware } from 'redux-observable'
-import { FETCH_REPO, FETCH_REPO_SUCCESS, FETCH_REPO_FAILED } from '../actions/types'
-import { fetchRepo } from '../actions'
+import {
+  FETCH_REPO_CONTRIBUTORS,
+  FETCH_REPO_CONTRIBUTORS_SUCCESS,
+  FETCH_REPO_CONTRIBUTORS_FAILED,
+} from '../actions/types'
+import { fetchRepoContributors } from '../actions'
 import epics from '../epics'
 import XMLHttpRequest from 'xhr2'
 global.XMLHttpRequest = XMLHttpRequest
@@ -23,20 +27,29 @@ describe('fetchRepo', () => {
   })
 
   it('returns repo create-react-app from github', done => {
-    const payload = { owner: 'facebook', repoName: 'create-react-app' }
+    const payload = {
+      url: 'https://api.github.com/repos/facebook/360-Capture-SDK/contributors',
+      name: 'create-react-app',
+    }
+
     const body = [
+      { id: 6290539, login: 'grancia' },
       {
-        id: 165883,
-        name: 'create-react-app',
+        id: 5921968,
+        login: 'cg439',
       },
     ]
+
     nock('https://api.github.com')
-      .get('/repos/facebook/create-react-app')
+      .get('/repos/facebook/360-Capture-SDK/contributors')
       .reply(200, body)
 
     const expectedActions = [
-      { type: FETCH_REPO, payload },
-      { type: FETCH_REPO_SUCCESS, payload: body },
+      { type: FETCH_REPO_CONTRIBUTORS, payload },
+      {
+        type: FETCH_REPO_CONTRIBUTORS_SUCCESS,
+        payload: { contributors: body, name: 'create-react-app' },
+      },
     ]
 
     store.subscribe(() => {
@@ -47,17 +60,28 @@ describe('fetchRepo', () => {
       }
     })
 
-    store.dispatch(fetchRepo('facebook', 'create-react-app'))
+    store.dispatch(
+      fetchRepoContributors(
+        'https://api.github.com/repos/facebook/360-Capture-SDK/contributors',
+        'create-react-app',
+      ),
+    )
   })
 
   it('handles get repo create-react-app error', done => {
-    const payload = { owner: 'facebook', repoName: 'create-react-app' }
+    const payload = {
+      url: 'https://api.github.com/repos/facebook/360-Capture-SDK/contributors',
+      name: 'create-react-app',
+    }
 
     nock('https://api.github.com')
       .get('/repos/facebook/create-react-app')
       .reply(404)
 
-    const expectedActions = [{ type: FETCH_REPO, payload }, { type: FETCH_REPO_FAILED }]
+    const expectedActions = [
+      { type: FETCH_REPO_CONTRIBUTORS, payload },
+      { type: FETCH_REPO_CONTRIBUTORS_FAILED },
+    ]
 
     store.subscribe(() => {
       const actions = store.getActions()
@@ -67,6 +91,11 @@ describe('fetchRepo', () => {
       }
     })
 
-    store.dispatch(fetchRepo('facebook', 'create-react-app'))
+    store.dispatch(
+      fetchRepoContributors(
+        'https://api.github.com/repos/facebook/360-Capture-SDK/contributors',
+        'create-react-app',
+      ),
+    )
   })
 })

@@ -17,30 +17,26 @@ const fetchOrgReposRequest = (owner, page = 0) =>
     .flatMap(items => {
       const items$ = Observable.from(items)
       const next$ = items.length > 0 ? fetchOrgReposRequest(owner, page + 1) : Observable.empty()
-
       return Observable.concat(items$, next$)
     })
 
 export const fetchOrgRepos = actions$ =>
-  actions$.ofType(FETCH_ORG_REPOS).mergeMap(action =>
-    fetchOrgReposRequest(action.payload.owner)
+  actions$.ofType(FETCH_ORG_REPOS).mergeMap(action => {
+    return fetchOrgReposRequest(action.payload.owner)
       .toArray(repos => repos)
       .map(repos => fetchOrgReposSuccess(repos))
       .takeUntil(actions$.ofType(FETCH_ORG_REPOS))
-      .catch(error => {
-        console.log(error)
-        return Observable.of(fetchOrgReposFailed())
-      }),
-  )
+      .catch(error => Observable.of(fetchOrgReposFailed()))
+  })
 
 export const fetchRepoContributors = actions$ =>
-  actions$.ofType(FETCH_REPO_CONTRIBUTORS).mergeMap(action =>
-    ajax
+  actions$.ofType(FETCH_REPO_CONTRIBUTORS).mergeMap(action => {
+    return ajax
       .getJSON(`${action.payload.url}`)
       .map(contributors =>
         fetchRepoContributorsSuccess({ contributors, name: action.payload.name }),
       )
       .takeUntil(actions$.ofType(FETCH_REPO_CONTRIBUTORS))
       .retry(2)
-      .catch(error => Observable.of(fetchRepoContributorsFailed())),
-  )
+      .catch(error => Observable.of(fetchRepoContributorsFailed()))
+  })
