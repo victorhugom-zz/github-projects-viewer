@@ -2,8 +2,6 @@ import nock from 'nock'
 import configureMockStore from 'redux-mock-store'
 import { createEpicMiddleware } from 'redux-observable'
 import XMLHttpRequest from 'xhr2'
-global.XMLHttpRequest = XMLHttpRequest
-
 import {
   FETCH_REPO_CONTRIBUTORS,
   FETCH_REPO_CONTRIBUTORS_SUCCESS,
@@ -11,6 +9,8 @@ import {
 } from '../actions/types'
 import { fetchRepoContributors } from '../actions'
 import epics from '../epics'
+
+global.XMLHttpRequest = XMLHttpRequest
 
 const epicMiddleware = createEpicMiddleware(epics)
 const mockStore = configureMockStore([epicMiddleware])

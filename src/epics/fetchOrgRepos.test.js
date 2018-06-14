@@ -2,11 +2,11 @@ import nock from 'nock'
 import configureMockStore from 'redux-mock-store'
 import { createEpicMiddleware } from 'redux-observable'
 import XMLHttpRequest from 'xhr2'
-global.XMLHttpRequest = XMLHttpRequest
-
 import { FETCH_ORG_REPOS, FETCH_ORG_REPOS_SUCCESS, FETCH_ORG_REPOS_FAILED } from '../actions/types'
 import { fetchOrgRepos } from '../actions'
 import epics from '../epics'
+
+global.XMLHttpRequest = XMLHttpRequest
 
 const epicMiddleware = createEpicMiddleware(epics)
 const mockStore = configureMockStore([epicMiddleware])

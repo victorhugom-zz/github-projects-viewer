@@ -1,5 +1,5 @@
 import reposReducer from './reposReducer'
-import { FETCH_ORG_REPOS, FETCH_REPO, FETCH_ORG_REPOS_SUCCESS } from './../actions/types'
+import { FETCH_ORG_REPOS_SUCCESS } from './../actions/types'
 
 const dataArray = [
   {

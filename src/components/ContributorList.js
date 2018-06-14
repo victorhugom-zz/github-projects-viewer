@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { Panel, SubTitle, HrLineLight } from '../styledComponents'
 import Contributor from './Contributor'
@@ -18,5 +19,9 @@ const Contributors = ({ contributors }) => (
     </div>
   </Panel>
 )
+
+Contributors.propTypes = {
+  contributors: PropTypes.object.isRequired,
+}
 
 export default Contributors

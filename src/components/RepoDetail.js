@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import * as actions from '../actions'
 import { repoByIdSelector } from '../selectors/orgsReposSelector'
@@ -16,7 +17,7 @@ import RepoDetailHeader from './RepoDetailHeader'
 class RepoDetail extends Component {
   state = {}
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps) {
     const { fetchRepoContributors, selectRepo, repo } = nextProps
 
     if (repo && !repo.contributors) {
@@ -48,4 +49,12 @@ class RepoDetail extends Component {
   }
 }
 
-export default connect(repoByIdSelector, actions)(RepoDetail)
+RepoDetail.propTypes = {
+  repo: PropTypes.object.isRequired,
+  loadingRepo: PropTypes.bool.isRequired,
+}
+
+export default connect(
+  repoByIdSelector,
+  actions,
+)(RepoDetail)

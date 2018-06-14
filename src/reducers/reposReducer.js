@@ -6,6 +6,7 @@ import {
   SET_REPOS_FILTER,
   SELECT_REPO,
 } from '../actions/types'
+
 export default function(state = { items: {} }, action) {
   switch (action.type) {
     case FETCH_ORG_REPOS:
@@ -14,11 +15,15 @@ export default function(state = { items: {} }, action) {
         loadingRepos: true,
       }
 
-    case FETCH_ORG_REPOS_SUCCESS:
-      const result = action.payload.reduce((prev, curr) => {
-        prev[curr.name] = curr
-        return prev
-      }, {})
+    case FETCH_ORG_REPOS_SUCCESS: {
+      const result = action.payload.reduce(
+        (prev, curr) => ({
+          [curr.name]: curr,
+          ...prev,
+        }),
+        {},
+      )
+
       return {
         ...state,
         loadingRepos: false,
@@ -27,6 +32,7 @@ export default function(state = { items: {} }, action) {
           ...result,
         },
       }
+    }
     case SET_REPOS_FILTER:
       return {
         ...state,

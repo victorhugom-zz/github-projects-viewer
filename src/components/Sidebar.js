@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as actions from '../actions'
 import { Link } from 'react-router-dom'
 import { Subject } from 'rxjs'
 import styled from 'styled-components'
+import * as actions from '../actions'
 
 import { orgsReposSelector } from '../selectors/orgsReposSelector'
 import { Title, Hover, HrLineLight, GrayInput, ElipsedText } from '../styledComponents'
@@ -21,18 +22,16 @@ const SidebarItemLink = SidebarItemBlock.extend`
   color: ${props => (props.selected ? '#00acff' : 'gray')};
 `
 
-const SidebarItem = repo => {
-  return (
-    <Hover>
-      <Link to={`/repo/${repo.name}`} style={{ textDecoration: 'none' }}>
-        <SidebarItemLink selected={repo.selected}>
-          <ElipsedText>{repo.name}</ElipsedText>
-          <span>{repo.watchers_count}</span>
-        </SidebarItemLink>
-      </Link>
-    </Hover>
-  )
-}
+const SidebarItem = repo => (
+  <Hover>
+    <Link to={`/repo/${repo.name}`} style={{ textDecoration: 'none' }}>
+      <SidebarItemLink selected={repo.selected}>
+        <ElipsedText>{repo.name}</ElipsedText>
+        <span>{repo.watchers_count}</span>
+      </SidebarItemLink>
+    </Link>
+  </Hover>
+)
 
 class Sidebar extends Component {
   constructor(props) {
@@ -41,7 +40,6 @@ class Sidebar extends Component {
       search: '',
     }
   }
-  onSearch$ = new Subject()
 
   componentDidMount() {
     this.props.fetchOrgRepos()
@@ -55,6 +53,7 @@ class Sidebar extends Component {
       this.subscription.unsubscribe()
     }
   }
+  onSearch$ = new Subject()
 
   onSearch = e => {
     const search = e.target.value
@@ -110,4 +109,15 @@ class Sidebar extends Component {
   }
 }
 
-export default connect(orgsReposSelector, actions)(Sidebar)
+Sidebar.propTypes = {
+  fetchOrgRepos: PropTypes.func.isRequired,
+  filterReposByName: PropTypes.func.isRequired,
+  repos: PropTypes.array.isRequired,
+  loadingRepos: PropTypes.bool.isRequired,
+  selectedItemName: PropTypes.string.isRequired,
+}
+
+export default connect(
+  orgsReposSelector,
+  actions,
+)(Sidebar)

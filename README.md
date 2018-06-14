@@ -6,10 +6,10 @@ It allows you to search a project by name and view its basics details and its co
 
 This project was made using [Create React App](https://github.com/facebook/create-react-app) and uses the following technologies:
 
-* [React](https://github.com/facebook/react)
-* [Redux](https://github.com/reduxjs/react-redux)
-* [RxJS](https://github.com/ReactiveX/rxjs)
-* [Styled Components](https://github.com/styled-components/styled-components)
+- [React](https://github.com/facebook/react)
+- [Redux](https://github.com/reduxjs/react-redux)
+- [RxJS](https://github.com/ReactiveX/rxjs)
+- [Styled Components](https://github.com/styled-components/styled-components)
 
 ## How To Run
 
@@ -33,5 +33,5 @@ yarn test
 
 ## Ideas
 
-* Allow to change the repository owner from facebook to any other.
-* Login with github to bypass the API limitations.
+- Allow to change the repository owner from facebook to any other.
+- Login with github to bypass the API limitations.

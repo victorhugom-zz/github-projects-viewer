@@ -1,4 +1,3 @@
-import 'rxjs'
 import { ajax } from 'rxjs/observable/dom/ajax'
 import { Observable } from 'rxjs'
 
@@ -21,22 +20,22 @@ const fetchOrgReposRequest = (owner, page = 0) =>
     })
 
 export const fetchOrgRepos = actions$ =>
-  actions$.ofType(FETCH_ORG_REPOS).mergeMap(action => {
-    return fetchOrgReposRequest(action.payload.owner)
+  actions$.ofType(FETCH_ORG_REPOS).mergeMap(action =>
+    fetchOrgReposRequest(action.payload.owner)
       .toArray(repos => repos)
       .map(repos => fetchOrgReposSuccess(repos))
       .takeUntil(actions$.ofType(FETCH_ORG_REPOS))
-      .catch(error => Observable.of(fetchOrgReposFailed()))
-  })
+      .catch(() => Observable.of(fetchOrgReposFailed())),
+  )
 
 export const fetchRepoContributors = actions$ =>
-  actions$.ofType(FETCH_REPO_CONTRIBUTORS).mergeMap(action => {
-    return ajax
+  actions$.ofType(FETCH_REPO_CONTRIBUTORS).mergeMap(action =>
+    ajax
       .getJSON(`${action.payload.url}`)
       .map(contributors =>
         fetchRepoContributorsSuccess({ contributors, name: action.payload.name }),
       )
       .takeUntil(actions$.ofType(FETCH_REPO_CONTRIBUTORS))
       .retry(2)
-      .catch(error => Observable.of(fetchRepoContributorsFailed()))
-  })
+      .catch(() => Observable.of(fetchRepoContributorsFailed())),
+  )
